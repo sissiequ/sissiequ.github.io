@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Inventory & Finance System - English Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 1);
+        }
+
+        .badge-large {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-small {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .total-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen pb-12">
+
+    <div class="max-w-5xl mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">📦 Smart Inventory & Finance Tracker</h1>
+            <p class="text-gray-600">Supports auto-save and CSV export.</p>
+        </header>
+
+        <div class="glass-card rounded-2xl p-6 shadow-sm mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Smart Input (Paste text or use
+                    voice-to-text)</label>
+                <button id="loadTestBtn"
+                    class="text-xs flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium px-3 py-1.5 bg-blue-50 rounded-lg border border-blue-100 transition-all hover:shadow-sm">
+                    <span>💡</span> Load Demo Data
+                </button>
+            </div>
+
+            <textarea id="aiInput" rows="4"
+                class="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                placeholder="Example: 3 buckets of Pickled Cabbage (42lbs each) at $50/unit; 5 units of Chopped Cabbage for $45..."></textarea>
+
+            <div class="mt-4 flex flex-wrap gap-3 items-center justify-between">
+                <div class="flex gap-2">
+                    <button id="processBtn"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2">
+                        <span id="btnText">Start AI Recognition</span>
+                        <div id="loader"
+                            class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin">
+                        </div>
+                    </button>
+                    <button id="clearInputBtn"
+                        class="text-gray-500 hover:bg-gray-100 px-4 py-2.5 rounded-lg transition-colors">Reset
+                        Input</button>
+                </div>
+                <p class="text-xs text-gray-400">* System automatically merges items with same name and specs</p>
+            </div>
+        </div>
+
+        <div class="glass-card rounded-2xl shadow-sm overflow-hidden mb-6">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
+                <h2 class="text-xl font-bold text-gray-800">Inventory Details</h2>
+                <div class="flex gap-2">
+                    <button id="exportCsvBtn"
+                        class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded-md text-sm transition-colors flex items-center gap-1">Export
+                        CSV</button>
+                    <button id="resetTableBtn"
+                        class="text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-md text-sm transition-colors">Clear
+                        Storage</button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 text-gray-500 text-sm uppercase">
+                        <tr>
+                            <th class="px-6 py-4 font-semibold">Item Name</th>
+                            <th class="px-6 py-4 font-semibold text-center">Spec</th>
+                            <th class="px-6 py-4 font-semibold">Qty (Buckets)</th>
+                            <th class="px-6 py-4 font-semibold">Price (USD)</th>
+                            <th class="px-6 py-4 font-semibold">Subtotal</th>
+                            <th class="px-6 py-4 font-semibold text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryBody" class="divide-y divide-gray-100"></tbody>
+                </table>
+            </div>
+
+            <div id="emptyState" class="py-12 text-center hidden">
+                <p class="text-gray-400 text-lg">No data available. Try the smart input above.</p>
+            </div>
+        </div>
+
+        <div id="summaryCard" class="total-banner rounded-2xl p-6 text-white shadow-xl hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <div class="text-center md:text-left">
+                    <h3 class="text-lg font-semibold opacity-90">Real-time Stats</h3>
+                    <p class="text-sm opacity-60">Data is saved locally in your browser.</p>
+                </div>
+                <div class="flex justify-center gap-12 border-x border-white/10">
+                    <div class="text-center">
+                        <div class="text-xs uppercase tracking-widest opacity-60 mb-1">Items</div>
+                        <div id="totalTypes" class="text-3xl font-bold">0</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs uppercase tracking-widest opacity-60 mb-1">Total Qty</div>
+                        <div id="totalBuckets" class="text-3xl font-bold">0</div>
+                    </div>
+                </div>
+                <div class="text-center md:text-right">
+                    <div class="text-xs uppercase tracking-widest opacity-60 mb-1">Total Amount</div>
+                    <div class="text-4xl font-black text-yellow-400">
+                        <span class="text-xl mr-1">$</span><span id="totalAmount">0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="statusMsg" class="mt-4 hidden p-4 rounded-xl text-center text-sm font-medium"></div>
+    </div>
+
+    <script>
+        // API Configuration
+        const apiKey = "AIzaSyBHP9UcVffimLAKWihtgExi-ctyEG6avFM"; // Consider securing this
+        const modelId = "gemma-3-27b-it";
+
+        // Initialization
+        let inventory = JSON.parse(localStorage.getItem('inventoryData')) || {};
+
+        const aiInput = document.getElementById('aiInput');
+        const processBtn = document.getElementById('processBtn');
+        const btnText = document.getElementById('btnText');
+        const loader = document.getElementById('loader');
+        const inventoryBody = document.getElementById('inventoryBody');
+        const emptyState = document.getElementById('emptyState');
+        const summaryCard = document.getElementById('summaryCard');
+        const statusMsg = document.getElementById('statusMsg');
+
+        function saveToLocal() {
+            localStorage.setItem('inventoryData', JSON.stringify(inventory));
+        }
+
+        async function analyzeTextWithAI(text) {
+            // English version of the prompt
+            const prompt = `You are a professional financial and inventory extraction assistant.
+            Task: Extract data from text: name, weight (lbs per bucket), quantity (number of buckets), price (unit price).
+            Rules: If the name contains "large" or implies big size, append "[Large Spec]" to the name.
+            Output: Return ONLY a valid JSON array. Example: [{"name":"Pickled Cabbage","weight":42,"quantity":3,"price":50}].
+            Content: ${text}`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 0.1, maxOutputTokens: 1000 }
+                    })
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error?.message || 'Request failed');
+
+                const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                const match = rawText.match(/\[\s*\{.*\}\s*\]/s);
+                if (!match) throw new Error("AI returned invalid JSON format");
+
+                return JSON.parse(match[0]);
+            } catch (error) {
+                console.error('AI Error:', error);
+                showStatus('AI Error: ' + error.message, 'error');
+                return null;
+            }
+        }
+
+        function updateUI() {
+            saveToLocal();
+            const keys = Object.keys(inventory);
+
+            if (keys.length === 0) {
+                inventoryBody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                summaryCard.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            summaryCard.classList.remove('hidden');
+
+            let totalBucketsVal = 0;
+            let totalAmountVal = 0;
+
+            inventoryBody.innerHTML = keys.map(key => {
+                const item = inventory[key];
+                const isLarge = item.weight >= 40;
+                const subtotal = item.quantity * item.price;
+                totalBucketsVal += item.quantity;
+                totalAmountVal += subtotal;
+
+                return `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-800">${item.name}</div>
+                            <div class="text-xs text-gray-400">${item.weight} lbs/bucket</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="px-2 py-1 rounded-full text-[10px] font-bold ${isLarge ? 'badge-large' : 'badge-small'}">
+                                ${isLarge ? 'LARGE' : 'SMALL'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <input type="number" value="${item.quantity}" oninput="updateField('${key}', 'quantity', this.value)"
+                                class="w-16 border rounded px-2 py-1 outline-none focus:ring-1 focus:ring-blue-400">
+                        </td>
+                        <td class="px-6 py-4">
+                            <input type="number" step="0.01" value="${item.price}" oninput="updateField('${key}', 'price', this.value)"
+                                class="w-20 border rounded px-2 py-1 outline-none focus:ring-1 focus:ring-blue-400">
+                        </td>
+                        <td class="px-6 py-4 font-mono font-bold">$${subtotal.toFixed(2)}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="removeItem('${key}')" class="text-red-300 hover:text-red-500 transition-colors">Delete</button>
+                        </td>
+                    </tr>`;
+            }).join('');
+
+            document.getElementById('totalTypes').textContent = keys.length;
+            document.getElementById('totalBuckets').textContent = totalBucketsVal;
+            document.getElementById('totalAmount').textContent = totalAmountVal.toLocaleString('en-US', { minimumFractionDigits: 2 });
+        }
+
+        function updateField(key, field, val) {
+            const n = parseFloat(val) || 0;
+            inventory[key][field] = n;
+
+            const rowTotal = inventory[key].quantity * inventory[key].price;
+            const inputEl = event.target;
+            const row = inputEl.closest('tr');
+            const subtotalEl = row.querySelector('td:nth-child(5)');
+            if (subtotalEl) {
+                subtotalEl.textContent = `$${rowTotal.toFixed(2)}`;
+            }
+
+            refreshSummaryOnly();
+            saveToLocal();
+        }
+
+        function refreshSummaryOnly() {
+            const keys = Object.keys(inventory);
+            let totalBucketsVal = 0;
+            let totalAmountVal = 0;
+
+            keys.forEach(key => {
+                totalBucketsVal += (inventory[key].quantity || 0);
+                totalAmountVal += (inventory[key].quantity * inventory[key].price || 0);
+            });
+
+            document.getElementById('totalTypes').textContent = keys.length;
+            document.getElementById('totalBuckets').textContent = totalBucketsVal;
+            document.getElementById('totalAmount').textContent = totalAmountVal.toLocaleString('en-US', { minimumFractionDigits: 2 });
+        }
+
+        function removeItem(key) {
+            delete inventory[key];
+            updateUI();
+        }
+
+        function showStatus(msg, type) {
+            statusMsg.textContent = msg;
+            statusMsg.className = `mt-4 p-4 rounded-xl text-center text-sm block ${type === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
+            setTimeout(() => statusMsg.classList.add('hidden'), 5000);
+        }
+
+        document.getElementById('loadTestBtn').addEventListener('click', () => {
+            const testData = `Order 1: 5 buckets of Garlic Sprout (42lbs) @ $40.50. 
+Client Smith: 2 buckets of Large Kimchi (45lbs) at $55 each.
+Warehouse A: 10 units of Pickled Ginger (34lbs) price 30.00.`;
+            aiInput.value = testData;
+            showStatus('Demo text loaded', 'success');
+        });
+
+        processBtn.addEventListener('click', async () => {
+            const text = aiInput.value.trim();
+            if (!text) return;
+
+            // Reset current batch when processing new text
+            inventory = {};
+            localStorage.removeItem('inventoryData');
+            updateUI();
+
+            processBtn.disabled = true;
+            loader.classList.remove('hidden');
+            btnText.textContent = 'Processing...';
+
+            const results = await analyzeTextWithAI(text);
+            if (results) {
+                results.forEach(item => {
+                    const key = `${item.name}-${item.weight >= 40 ? 'L' : 'S'}`;
+                    if (inventory[key]) {
+                        inventory[key].quantity += item.quantity;
+                        if (item.price > 0) inventory[key].price = item.price;
+                    } else {
+                        inventory[key] = item;
+                    }
+                });
+                aiInput.value = '';
+                updateUI();
+                showStatus('Data processed successfully', 'success');
+            }
+            processBtn.disabled = false;
+            loader.classList.add('hidden');
+            btnText.textContent = 'Start AI Recognition';
+        });
+
+        document.getElementById('clearInputBtn').addEventListener('click', () => aiInput.value = '');
+
+        document.getElementById('resetTableBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all local data?')) {
+                inventory = {};
+                updateUI();
+            }
+        });
+
+        document.getElementById('exportCsvBtn').addEventListener('click', () => {
+            const keys = Object.keys(inventory);
+            if (keys.length === 0) return;
+            let csv = "\uFEFFItem Name,Weight,Spec,Quantity,Price,Subtotal\n";
+            keys.forEach(k => {
+                const i = inventory[k];
+                csv += `"${i.name}",${i.weight},${i.weight >= 40 ? 'Large' : 'Small'},${i.quantity},${i.price},${(i.quantity * i.price).toFixed(2)}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Inventory_Report_${new Date().toLocaleDateString()}.csv`;
+            a.click();
+        });
+
+        updateUI();
+    </script>
+</body>
+
+</html>

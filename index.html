@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sissie | Creative Tech & Art Hub</title>
+    <title>Sissie | Project Hub</title>
+    <!-- Lucide Icons for professional look -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
             --primary-blue: #3b82f6;
             --accent-purple: #8b5cf6;
-            --bg-dark: #020617;
-            --card-bg: rgba(15, 23, 42, 0.8);
-            --text-main: #f8fafc;
+            --bg-dark: #050505;
+            --card-bg: rgba(20, 20, 25, 0.7);
+            --text-main: #ffffff;
             --text-dim: #94a3b8;
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --modal-bg: rgba(10, 10, 15, 0.95);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'SF Pro Display', -apple-system, system-ui, sans-serif;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
         }
 
         body {
@@ -27,9 +30,11 @@
             color: var(--text-main);
             overflow-x: hidden;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Animated Canvas Background */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -37,187 +42,228 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            filter: blur(1px);
+            filter: blur(2px);
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 1100px;
             padding: 60px 20px;
-            position: relative;
+            z-index: 1;
         }
 
         header {
             text-align: center;
-            margin-bottom: 80px;
-            animation: slideDown 1s cubic-bezier(0.22, 1, 0.36, 1);
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease-out;
         }
 
         header h1 {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            letter-spacing: -2px;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
-            letter-spacing: -1px;
         }
 
-        header p {
+        .intro-subtext {
             color: var(--text-dim);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
             line-height: 1.6;
         }
 
-        /* Profile & Project Display Area */
-        .main-stage {
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .project-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .project-bar {
+            position: relative;
+            width: 100%;
+            height: 110px;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 50px;
-            margin-bottom: 50px;
-            min-height: 480px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transition: all 0.5s ease;
-            position: relative;
+            border-radius: 24px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             overflow: hidden;
+            cursor: pointer;
+            animation: slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
-        .project-content {
-            display: none;
+        .project-bar:hover {
+            transform: scale(1.02) translateX(10px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .demo-badge {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            border-radius: 6px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .project-desc-hover {
+            position: absolute;
+            left: 40px;
+            right: 100px;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.4s ease;
+            color: var(--text-dim);
+            font-size: 1rem;
         }
 
-        .project-content.active {
-            display: block;
+        .project-bar:hover .project-title {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .project-bar:hover .project-desc-hover {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .display-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-        }
-
-        .display-title h2 {
-            font-size: 2.2rem;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
-        .status-badge {
-            background: rgba(59, 130, 246, 0.15);
-            color: var(--primary-blue);
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            line-height: 1.8;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .skill-tag {
+        .icon-box {
+            width: 45px;
+            height: 45px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 5px 14px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            color: #cbd5e1;
-        }
-
-        /* Project Selection Cards */
-        .selector-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .nav-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-
-        .nav-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.07);
-            border-color: var(--primary-blue);
-        }
-
-        .nav-card.active {
-            background: linear-gradient(145deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-            border-color: var(--primary-blue);
-        }
-
-        .nav-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: var(--text-main);
-        }
-
-        .nav-card p {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            line-height: 1.4;
-        }
-
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 30px;
-            padding: 12px 28px;
-            background: var(--primary-blue);
-            color: white;
-            text-decoration: none;
             border-radius: 12px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+        .arrow-icon {
+            margin-left: auto;
+            opacity: 0.2;
+            transition: 0.3s;
+        }
+
+        .project-bar:hover .arrow-icon {
+            opacity: 1;
+            transform: translateX(5px);
+            color: var(--primary-blue);
+        }
+
+        #projectModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
             border: 1px solid var(--glass-border);
+            max-width: 700px;
+            width: 100%;
+            border-radius: 32px;
+            padding: 40px;
+            position: relative;
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .btn-action:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .close-modal {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            cursor: pointer;
+            color: var(--text-dim);
+            transition: 0.3s;
         }
 
-        @media (max-width: 900px) {
-            .info-grid { grid-template-columns: 1fr; }
-            header h1 { font-size: 2.8rem; }
-            .main-stage { padding: 30px; }
+        .close-modal:hover { color: white; }
+
+        .modal-header { margin-bottom: 25px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px;}
+        .modal-header h2 { font-size: 2rem; margin-bottom: 5px; color: var(--primary-blue); }
+        .modal-header span { color: var(--text-dim); font-size: 0.9rem; }
+
+        .modal-body ul { list-style: none; }
+        .modal-body li { margin-bottom: 15px; color: var(--text-main); line-height: 1.6; display: flex; gap: 10px; }
+        .modal-body li::before { content: "•"; color: var(--primary-blue); font-weight: bold; }
+
+        .modal-footer { margin-top: 30px; display: flex; gap: 10px; }
+        .tech-tag { background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; color: var(--text-dim); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2.5rem; }
+            .project-bar { height: 130px; padding: 0 25px; }
+            .project-title { font-size: 1.2rem; }
+            .modal-content { padding: 25px; }
         }
     </style>
 </head>
@@ -227,157 +273,167 @@
 
     <div class="container">
         <header>
-            <h1>Sissie's Hub</h1>
-            <p>Bridging the gap between digital art and interactive technology through creative coding and design.</p>
+            <h1>Sissie Qu</h1>
+            <p class="intro-subtext">
+                Computer Engineering student at the <b>University of Waterloo</b>. 
+                Focusing on C++, Python, and full-stack architecture. 
+                Bridging the gap between engineering precision and creative design.
+            </p>
+            <div class="social-links">
+                <a href="mailto:s6qu@uwaterloo.ca"><i data-lucide="mail"></i> s6qu@uwaterloo.ca</a>
+                <a href="https://www.linkedin.com/in/sissie-qu-136864384" target="_blank"><i data-lucide="linkedin"></i> LinkedIn</a>
+                <a href="https://sissiequ.github.io" target="_blank"><i data-lucide="globe"></i> Portfolio</a>
+            </div>
         </header>
 
-        <div class="main-stage" id="mainDisplay">
-            
-            <!-- View: About Me -->
-            <div id="view-about" class="project-content active">
-                <div class="display-header">
-                    <div class="display-title">
-                        <h2>Personal Profile</h2>
-                        <p style="color: var(--text-dim)">Developer & Digital Artist</p>
-                    </div>
-                    <span class="status-badge">Available for Projects</span>
+        <div class="project-stack">
+            <!-- Project 1: AI Cargo (Demo) - NOW WITH LINK -->
+            <a href="countingEN.html" class="project-bar">
+                <div class="project-title">
+                    <div class="icon-box"><i data-lucide="search"></i></div>
+                    <span>AI Cargo Scanning System <span class="demo-badge">Demo</span></span>
                 </div>
-                <div class="info-grid">
-                    <div>
-                        <p><strong>Education:</strong><br>
-                        [Your School Name] — [Your Major/Degree]<br>
-                        Focusing on Human-Computer Interaction and Visual Design.</p>
-                        <p style="margin-top: 15px;"><strong>Technical Skills:</strong></p>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Unity / C#</span>
-                            <span class="skill-tag">C++ / .NET</span>
-                            <span class="skill-tag">JavaScript (ES6+)</span>
-                            <span class="skill-tag">HTML5 / CSS3</span>
-                            <span class="skill-tag">UI/UX Design</span>
-                            <span class="skill-tag">Digital Illustration</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p>I specialize in combining logic with aesthetics. Whether it's a 3D environment in Unity or a functional desktop application in C++, I focus on delivering seamless user experiences and polished visuals.</p>
-                        <p style="margin-top: 15px;">Currently bridge-building between Game Development and Web Technologies.</p>
-                    </div>
+                <div class="project-desc-hover">
+                    Computer vision solution using OpenCV and AI APIs for real-time cargo classification and object detection.
                 </div>
+                <i data-lucide="external-link" class="arrow-icon"></i>
+            </a>
+
+            <!-- Project 2: GPA Calc (Demo) -->
+            <a href="GPACalculator.html" class="project-bar">
+                <div class="project-title">
+                    <div class="icon-box"><i data-lucide="calculator"></i></div>
+                    <span>Final Grade Calculator <span class="demo-badge">Demo</span></span>
+                </div>
+                <div class="project-desc-hover">
+                    Interactive JS tool for weighted grade algorithms and academic goal planning.
+                </div>
+                <i data-lucide="external-link" class="arrow-icon"></i>
+            </a>
+
+            <!-- Project 3: Art (Demo) -->
+            <a href="freelance_artist.html" class="project-bar">
+                <div class="project-title">
+                    <div class="icon-box"><i data-lucide="palette"></i></div>
+                    <span>Creative Art Portfolio <span class="demo-badge">Demo</span></span>
+                </div>
+                <div class="project-desc-hover">
+                    A fusion of digital drawing, parametric design validation, and technical documentation.
+                </div>
+                <i data-lucide="external-link" class="arrow-icon"></i>
+            </a>
+
+            <!-- Project 4: Hospital Device (Modal) -->
+            <div class="project-bar" onclick="openModal('hospital')">
+                <div class="project-title">
+                    <div class="icon-box"><i data-lucide="activity"></i></div>
+                    <span>Environment Monitor</span>
+                </div>
+                <div class="project-desc-hover">
+                    Arduino-based embedded system tracking temperature, light, and noise with real-time feedback systems.
+                </div>
+                <i data-lucide="chevron-right" class="arrow-icon"></i>
             </div>
 
-            <!-- Project 1: Unity Demo -->
-            <div id="view-unity" class="project-content">
-                <div class="display-header">
-                    <div class="display-title">
-                        <h2>Unity 3D Project</h2>
-                        <p style="color: var(--text-dim)">Game Design & Interactive Environment</p>
-                    </div>
-                    <span class="status-badge">Game Dev</span>
+            <!-- Project 5: Platformer (Modal) -->
+            <div class="project-bar" onclick="openModal('game')">
+                <div class="project-title">
+                    <div class="icon-box"><i data-lucide="gamepad-2"></i></div>
+                    <span>2D Platformer Game</span>
                 </div>
-                <div class="info-grid">
-                    <div>
-                        <p>An immersive 3D demo developed in Unity. This project explores real-time lighting, character controller mechanics, and environmental storytelling.</p>
-                        <ul style="margin: 20px 0; color: var(--text-dim); list-style-position: inside;">
-                            <li>Custom C# scripting for mechanics</li>
-                            <li>Optimized URP (Universal Render Pipeline)</li>
-                            <li>3D Asset integration and animation</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p><strong>Stack:</strong> Unity 2022+, C#, URP, Blender.</p>
-                        <a href="#" class="btn-action">Watch Gameplay →</a>
-                        <a href="#" class="btn-action btn-secondary">Source Code</a>
-                    </div>
+                <div class="project-desc-hover">
+                    Modular C# architecture in Unity, implementing physics-based player movement and animation control.
                 </div>
+                <i data-lucide="chevron-right" class="arrow-icon"></i>
             </div>
 
-            <!-- Project 2: Five in a Row (Gomoku) -->
-            <div id="view-gomoku" class="project-content">
-                <div class="display-header">
-                    <div class="display-title">
-                        <h2>Gomoku (Five in a Row)</h2>
-                        <p style="color: var(--text-dim)">Visual Studio / C# Desktop App</p>
-                    </div>
-                    <span class="status-badge">Logic & Algorithm</span>
+            <!-- Project 6: CAD Automation (Modal) -->
+            <div class="project-bar" onclick="openModal('cad')">
+                <div class="project-title">
+                    <div class="icon-box"><i data-lucide="box"></i></div>
+                    <span>CAD Automation Scripts</span>
                 </div>
-                <div class="info-grid">
-                    <div>
-                        <p>A classic board game developed using Visual Studio. Features a Win-Check algorithm and a clean GDI+ or WPF-based graphical user interface.</p>
-                        <ul style="margin: 20px 0; color: var(--text-dim); list-style-position: inside;">
-                            <li>Recursive Win-Condition Check</li>
-                            <li>Local Multi-player support</li>
-                            <li>Custom Board Rendering Logic</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p><strong>Stack:</strong> C#, .NET Framework, Visual Studio 2022.</p>
-                        <a href="#" class="btn-action">View Documentation</a>
-                        <a href="#" class="btn-action btn-secondary">GitHub Repo</a>
-                    </div>
+                <div class="project-desc-hover">
+                    C++ automation in Visual Studio for CATIA V5, reducing manual 3D modeling entry time by 40%.
                 </div>
+                <i data-lucide="chevron-right" class="arrow-icon"></i>
             </div>
-
-            <!-- Project 3: Artist Portfolio (Previous) -->
-            <div id="view-artist" class="project-content">
-                <div class="display-header">
-                    <div class="display-title">
-                        <h2>Artist Portfolio Page</h2>
-                        <p style="color: var(--text-dim)">Web Design for Creatives</p>
-                    </div>
-                    <span class="status-badge">Web Dev</span>
-                </div>
-                <div class="info-grid">
-                    <div>
-                        <p>A professional landing page for freelance artists to showcase character designs and manage commercial inquiries.</p>
-                    </div>
-                    <div>
-                        <p><strong>Stack:</strong> HTML5, CSS3, JavaScript.</p>
-                        <a href="#" class="btn-action">Live Preview →</a>
-                    </div>
-                </div>
-            </div>
-
         </div>
-
-        <div class="selector-grid">
-            <div class="nav-card active" onclick="switchView('about', this)">
-                <h4>👋 About Me</h4>
-                <p>Education & Skills</p>
-            </div>
-          <a href="freelance_artist.html" class="nav-card-link">
-    <div class="nav-card">
-        <h4>🎮 Unity Demo</h4>
-        <p>31D Game Mechanics</p>
     </div>
-</a>
-            
-            <div class="nav-card" onclick="switchView('gomoku', this)">
-                <h4>♟️ Gomoku App</h4>
-                <p>C# Desktop Logic</p>
+
+    <!-- Elaboration Modal -->
+    <div id="projectModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="close-modal" onclick="closeModal()">
+                <i data-lucide="x"></i>
             </div>
-            <div class="nav-card" onclick="switchView('artist', this)">
-                <h4>🎨 Artist Page</h4>
-                <p>Web Portfolio</p>
+            <div id="modalContent">
+                <!-- Content injected via JS -->
             </div>
         </div>
     </div>
 
     <script>
-        // --- View Switching Logic ---
-        function switchView(id, btn) {
-            const contents = document.querySelectorAll('.project-content');
-            const cards = document.querySelectorAll('.nav-card');
-            
-            contents.forEach(el => el.classList.remove('active'));
-            cards.forEach(el => el.classList.remove('active'));
-
-            const target = document.getElementById('view-' + id);
-            if (target) {
-                target.classList.add('active');
+        const projectDetails = {
+            hospital: {
+                title: "Hospital Environment Monitoring Device",
+                tech: ["Arduino", "C++", "Sensors"],
+                points: [
+                    "Designed and built an embedded monitoring system to track temperature, light, and noise levels in hospital wards.",
+                    "Interfaced multiple analog and digital sensors with an Arduino microcontroller.",
+                    "Implemented real-time feedback using LCD displays and RGB LED status indicators for hospital staff."
+                ]
+            },
+            game: {
+                title: "2D Platformer Game Engine",
+                tech: ["Unity", "C#", "Physics"],
+                points: [
+                    "Implemented core gameplay mechanics including physics-based movement, pixel-perfect collisions, and custom gravity.",
+                    "Developed modular C# scripts for animation control and global game state management.",
+                    "Created an extensible event system for triggering environmental interactions and sound effects."
+                ]
+            },
+            cad: {
+                title: "CAD Automation Scripts",
+                tech: ["C++", "Visual Studio", "CATIA V5"],
+                points: [
+                    "Developed C++ automation scripts in Visual Studio to optimize 3D modeling workflows.",
+                    "Reduced technical documentation and manual entry time by 40% through macro integration.",
+                    "Engineered complex parametric models for mechanical design validation and iterative stress testing."
+                ]
             }
-            btn.classList.add('active');
+        };
+
+        function openModal(id) {
+            const data = projectDetails[id];
+            const content = document.getElementById('modalContent');
+            
+            content.innerHTML = `
+                <div class="modal-header">
+                    <h2>${data.title}</h2>
+                    <span>Technical Elaboration</span>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        ${data.points.map(p => `<li>${p}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    ${data.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                </div>
+            `;
+            
+            document.getElementById('projectModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
         }
 
-        // --- Enhanced Particle Background ---
+        function closeModal(e) {
+            document.getElementById('projectModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // --- Particle Background ---
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -386,15 +442,15 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             particles = [];
-            const count = Math.floor((canvas.width * canvas.height) / 15000);
+            const count = Math.floor((canvas.width * canvas.height) / 25000);
             for (let i = 0; i < count; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 2 + 1,
-                    dx: (Math.random() - 0.5) * 0.6,
-                    dy: (Math.random() - 0.5) * 0.6,
-                    alpha: Math.random() * 0.5 + 0.2
+                    size: Math.random() * 1.5 + 0.5,
+                    dx: (Math.random() - 0.5) * 0.3,
+                    dy: (Math.random() - 0.5) * 0.3,
+                    alpha: Math.random() * 0.4 + 0.1
                 });
             }
         }
@@ -410,18 +466,6 @@
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fill();
-                for (let j = i + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 150) {
-                        ctx.strokeStyle = `rgba(139, 92, 246, ${0.1 * (1 - dist / 150)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
             });
             requestAnimationFrame(animate);
         }
@@ -429,6 +473,7 @@
         window.addEventListener('resize', init);
         init();
         animate();
+        lucide.createIcons();
     </script>
 </body>
 </html>
