@@ -1,58 +1,51 @@
-Sissie's Project Hub
+# Sissie's Project Hub
 
-A modern web-based personal project aggregator designed to showcase my expertise and exploration in Computer Engineering, Artificial Intelligence, Embedded Systems, and Digital Arts.
+A modern, web-based personal project hub designed to showcase my technical background and hands-on exploration across **Computer Engineering**, **Artificial Intelligence**, **Embedded Systems**, and **Digital Arts**.
 
-🌟 Project Highlights
+This repository serves as both a portfolio and an interactive demonstration platform, allowing recruiters and collaborators to quickly assess my skills through live demos and structured technical descriptions.
 
-Dynamic Visual Interaction: High-performance particle flow background developed using native Canvas API, creating a sophisticated tech-focused atmosphere.
+---
 
-Hybrid Presentation Modes:
+## 🌟 Project Highlights
 
-Interactive Demos: Core projects support direct navigation to live demonstration pages (e.g., AI Cargo Scanning, GPA Calculator).
+### Interactive & Demo-Driven
+- Live, browser-based demos for selected projects (e.g. AI Cargo Scanning, GPA Calculator)
+- No backend or complex setup required — projects are immediately accessible
 
-In-depth Technical Elaboration: For non-web projects (e.g., Embedded Hardware, CAD Automation), detailed technical breakdowns are provided via custom-built modals.
+### Hybrid Presentation Approach
+- **Interactive demos** for web-based systems
+- **Technical elaboration sections** for non-web projects such as embedded hardware and game development
 
-Professional Glassmorphism Design: Sleek, modern UI utilizing translucent layers and Lucide icons, fully optimized for responsive viewing across all devices.
+### Modern UI Design
+- Clean, minimal interface focused on readability and usability
+- Responsive layout optimized for desktop and mobile devices
+- Designed to prioritize fast scanning by recruiters
 
-🛠️ Technology Stack
+---
 
-Front-end Core: HTML5, CSS3 (Flexbox/Grid), JavaScript (ES6+)
+## 🛠️ Technology Stack
 
-Graphics: HTML5 Canvas 2D Context (for particle dynamics simulation)
+### Front-End
+- **HTML5**
+- **CSS3** (Flexbox, Grid)
+- **JavaScript (ES6+)**
 
-Iconography: Lucide Icons
+### Graphics & Interaction
+- **HTML5 Canvas (2D Context)** for dynamic visual elements
+- Custom JavaScript logic for interaction and state management
 
-Design Patterns: Responsive layout, dynamic modal logic, CSS variable management.
+### Tools & Concepts
+- Responsive layout design
+- Modular file structure
+- Client-side computation and validation
 
-📁 Core Modules
+---
 
-AI Cargo Scanning System (Demo)
+## 📁 Core Projects
 
-Link: countingEN.html
+### 1. AI Cargo Scanning System  
+**Technologies:** Python, OpenCV, AI APIs  
+**Demo Page:** `countingEN.html`
 
-Function: Demonstrates real-time cargo classification using OpenCV and AI APIs.
-
-Final Grade Calculator (Demo)
-
-Link: GPACalculator.html
-
-Function: An interactive academic management tool for GPA target planning.
-
-Technical Elaboration Modals
-
-Provides deep-dives for Hospital Monitor (Arduino/C++) and 2D Platformer (Unity/C#), allowing recruiters to quickly assess implementation logic.
-
-🚀 How to Run
-
-This project is a pure static web application and does not require a complex backend environment:
-
-Clone the repository:
-
-git clone [https://github.com/YourUsername/project-hub.git](https://github.com/YourUsername/project-hub.git)
-
-
-Open index.html directly in any modern web browser.
-
-Sissie Qu | Computer Engineering @ University of Waterloo
-
-LinkedIn | Portfolio
+**Description:**  
+An AI-assisted cargo scanning d
