@@ -2,8 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sissie | Freelance Artist</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --accent: #3b82f6;
+            --text-main: #ffffff;
+            --text-dim: #a1a1aa;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* 紧凑型页眉设计 */
+        .hero {
+            background-color: var(--bg-dark);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            margin: 5px 0 0;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        section {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #111;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.02);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #222;
+        }
+
+        th {
+            background: #1a1a1a;
+            color: var(--accent);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #111;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        input, textarea {
+            background: #000;
+            border: 1px solid #333;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -24,6 +160,7 @@
 <section class="portfolio">
     <h2>Portfolio</h2>
     <div class="gallery">
+        <!-- 恢复为你的原始本地图片路径 -->
         <img src="images/art1.jpg" alt="Artwork 1">
         <img src="images/art2.jpg" alt="Artwork 2">
         <img src="images/art3.jpg" alt="Artwork 3">
@@ -37,7 +174,6 @@
         <img src="images/art11.jpg" alt="Artwork 11">
     </div>
 </section>
-
 
 <section class="pricing">
     <h2>Commission Prices</h2>
