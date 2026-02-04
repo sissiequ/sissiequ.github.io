@@ -232,7 +232,6 @@
             animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Image Gallery Styles */
         .modal-gallery {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -316,12 +315,10 @@
             <p class="intro-subtext">
                 Computer Engineering student at the <b>University of Waterloo</b>. 
                 Focusing on C++, Python, and full-stack architecture. 
-                Bridging the gap between engineering precision and creative design.
             </p>
             <div class="social-links">
                 <a href="mailto:s6qu@uwaterloo.ca"><i data-lucide="mail"></i> s6qu@uwaterloo.ca</a>
                 <a href="https://www.linkedin.com/in/sissie-qu-136864384" target="_blank"><i data-lucide="linkedin"></i> LinkedIn</a>
-                <a href="https://sissiequ.github.io" target="_blank"><i data-lucide="globe"></i> Portfolio</a>
             </div>
         </header>
 
@@ -338,11 +335,23 @@
                 <i data-lucide="external-link" class="arrow-icon"></i>
             </a>
 
-            <!-- Project 2: GPA Calc -->
+            <!-- PROJECT 2: Unity Game (Updated path to game_demo.html) -->
+            <a href="game_demo.html" class="project-bar">
+                <div class="project-title">
+                    <div class="icon-box"><i data-lucide="gamepad-2"></i></div>
+                    <span>2D Platformer Game <span class="demo-badge">Play Demo</span></span>
+                </div>
+                <div class="project-desc-hover">
+                    Modular C# architecture in Unity. Explore physics-based movement and level design directly in-browser.
+                </div>
+                <i data-lucide="external-link" class="arrow-icon"></i>
+            </a>
+
+            <!-- Project 3: GPA Calc -->
             <a href="GPACalculator.html" class="project-bar">
                 <div class="project-title">
                     <div class="icon-box"><i data-lucide="calculator"></i></div>
-                    <span>Final Grade Calculator <span class="demo-badge">Demo</span></span>
+                    <span>Final Grade Calculator <span class="demo-badge">Tool</span></span>
                 </div>
                 <div class="project-desc-hover">
                     Interactive JS tool for weighted grade algorithms and academic goal planning.
@@ -350,53 +359,29 @@
                 <i data-lucide="external-link" class="arrow-icon"></i>
             </a>
 
-            <!-- Project 3: CAD Automation (Moved to 3rd row with Demo badge) -->
+            <!-- Project 4: CAD Automation -->
             <div class="project-bar" onclick="openModal('cad')">
                 <div class="project-title">
                     <div class="icon-box"><i data-lucide="box"></i></div>
-                    <span>CAD Automation Scripts <span class="demo-badge">Demo</span></span>
+                    <span>CAD Automation Scripts <span class="demo-badge">Gallery</span></span>
                 </div>
                 <div class="project-desc-hover">
-                    C++ automation in Visual Studio for CATIA V5, reducing manual 3D modeling entry time by 40%.
+                    C++ automation for CATIA V5, reducing manual 3D modeling entry time by 40%.
                 </div>
                 <i data-lucide="chevron-right" class="arrow-icon"></i>
             </div>
 
-            <!-- Project 4: Art -->
+            <!-- Project 5: Art -->
             <a href="freelance_artist.html" class="project-bar">
                 <div class="project-title">
                     <div class="icon-box"><i data-lucide="palette"></i></div>
-                    <span>Creative Art Portfolio <span class="demo-badge">Demo</span></span>
+                    <span>Creative Art Portfolio <span class="demo-badge">Art</span></span>
                 </div>
                 <div class="project-desc-hover">
                     A fusion of digital drawing, parametric design validation, and technical documentation.
                 </div>
                 <i data-lucide="external-link" class="arrow-icon"></i>
             </a>
-
-            <!-- Project 5: Hospital Device -->
-            <div class="project-bar" onclick="openModal('hospital')">
-                <div class="project-title">
-                    <div class="icon-box"><i data-lucide="activity"></i></div>
-                    <span>Environment Monitor</span>
-                </div>
-                <div class="project-desc-hover">
-                    Arduino-based embedded system tracking temperature, light, and noise with real-time feedback systems.
-                </div>
-                <i data-lucide="chevron-right" class="arrow-icon"></i>
-            </div>
-
-            <!-- Project 6: Platformer -->
-            <div class="project-bar" onclick="openModal('game')">
-                <div class="project-title">
-                    <div class="icon-box"><i data-lucide="gamepad-2"></i></div>
-                    <span>2D Platformer Game</span>
-                </div>
-                <div class="project-desc-hover">
-                    Modular C# architecture in Unity, implementing physics-based player movement and animation control.
-                </div>
-                <i data-lucide="chevron-right" class="arrow-icon"></i>
-            </div>
         </div>
     </div>
 
@@ -414,60 +399,35 @@
 
     <script>
         const projectDetails = {
-            hospital: {
-                title: "Hospital Environment Monitoring Device",
-                tech: ["Arduino", "C++", "Sensors"],
-                points: [
-                    "Designed and built an embedded monitoring system to track temperature, light, and noise levels in hospital wards.",
-                    "Interfaced multiple analog and digital sensors with an Arduino microcontroller.",
-                    "Implemented real-time feedback using LCD displays and RGB LED status indicators for hospital staff."
-                ]
-            },
-            game: {
-                title: "2D Platformer Game Engine",
-                tech: ["Unity", "C#", "Physics"],
-                points: [
-                    "Implemented core gameplay mechanics including physics-based movement, pixel-perfect collisions, and custom gravity.",
-                    "Developed modular C# scripts for animation control and global game state management.",
-                    "Created an extensible event system for triggering environmental interactions and sound effects."
-                ]
-            },
             cad: {
                 title: "CAD Automation Scripts & Modeling",
                 tech: ["C++", "Visual Studio", "CATIA V5", "COM API"],
                 images: [
-                    "asset/1.png",
-                    "asset/2.png",
-                    "asset/3.png",
-                    "asset/4.png",
-                    "asset/5.png",
-                    "asset/6.png"
+                    "asset/1.png", "asset/2.png", "asset/3.png", 
+                    "asset/4.png", "asset/5.png", "asset/6.png"
                 ],
                 points: [
-                    "Developed automation scripts for generating complex 3D assets, ranging from organic humanoid robotics (Image 1) to heavy industrial armor (Image 2).",
-                    "Integrated parametric logic to automate the modeling of consumer vehicles (Image 3 & 5) and ergonomic seating furniture (Image 4).",
-                    "Optimized aerospace surface modeling for fighter aircraft geometries (Image 6), ensuring aerodynamic precision through C++ scripting.",
-                    "Reduced manual 3D modeling entry time by 40% using CATIA COM API integration for batch geometry generation.",
-                    "Engineered robust parametric models for rapid design iteration and stress testing validation."
+                    "Developed automation scripts for generating complex 3D assets via CATIA COM API.",
+                    "Implemented parametric logic to automate modeling of consumer vehicles and industrial gear.",
+                    "Optimized aerospace surface modeling for aerodynamic precision through C++ scripting."
                 ]
             }
         };
 
         function openModal(id) {
             const data = projectDetails[id];
+            if(!data) return;
             const content = document.getElementById('modalContent');
             
             let galleryHtml = '';
             if (data.images && data.images.length > 0) {
-                galleryHtml = `
-                    <div class="modal-gallery">
-                        ${data.images.map((img, index) => `
-                            <div class="gallery-item">
-                                <img src="${img}" alt="CAD Asset ${index + 1}" onerror="this.src='https://via.placeholder.com/400x300?text=Asset+${index+1}'">
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
+                galleryHtml = `<div class="modal-gallery">
+                    ${data.images.map((img, index) => `
+                        <div class="gallery-item">
+                            <img src="${img}" alt="Asset ${index + 1}" onerror="this.src='https://via.placeholder.com/400x300?text=Asset+${index+1}'">
+                        </div>
+                    `).join('')}
+                </div>`;
             }
 
             content.innerHTML = `
@@ -477,9 +437,7 @@
                 </div>
                 <div class="modal-body">
                     ${galleryHtml}
-                    <ul>
-                        ${data.points.map(p => `<li>${p}</li>`).join('')}
-                    </ul>
+                    <ul>${data.points.map(p => `<li>${p}</li>`).join('')}</ul>
                 </div>
                 <div class="modal-footer">
                     ${data.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
@@ -491,12 +449,12 @@
             lucide.createIcons();
         }
 
-        function closeModal(e) {
+        function closeModal() {
             document.getElementById('projectModal').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
-        // --- Particle Background ---
+        // Particle Background Logic
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -520,15 +478,12 @@
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                p.x += p.dx;
-                p.y += p.dy;
+            particles.forEach(p => {
+                p.x += p.dx; p.y += p.dy;
                 if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
                 if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
                 ctx.fillStyle = `rgba(96, 165, 250, ${p.alpha})`;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
             });
             requestAnimationFrame(animate);
         }
