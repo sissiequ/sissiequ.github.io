@@ -316,6 +316,10 @@
     <script>
         lucide.createIcons();
 
+        /**
+         * Opens the lightbox modal and populates it with card data
+         * @param {HTMLElement} card - The card element that was clicked
+         */
         function openModal(card) {
             const modal = document.getElementById('projectModal');
             const modalImg = document.getElementById('modalImage');
@@ -323,30 +327,35 @@
             const modalDesc = document.getElementById('modalDesc');
             const modalTags = document.getElementById('modalTags');
 
-            // 提取卡片中的数据
+            // Extract data from the clicked card
             const imgSrc = card.querySelector('.card-image img').src;
             const title = card.querySelector('.card-title').innerText;
             const desc = card.querySelector('.card-desc').innerText;
             const tags = card.querySelector('.card-tags').innerHTML;
 
-            // 填充到模态框
+            // Populate the modal content
             modalImg.src = imgSrc;
             modalTitle.innerText = title;
             modalDesc.innerText = desc;
             modalTags.innerHTML = tags;
 
-            // 显示模态框
+            // Show modal with animation
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // scrollowing forbidden
+            // Disable background scrolling when modal is open
+            document.body.style.overflow = 'hidden'; 
         }
 
+        /**
+         * Closes the lightbox modal
+         */
         function closeModal() {
             const modal = document.getElementById('projectModal');
             modal.classList.remove('active');
-            document.body.style.overflow = 'auto'; // scolling available
+            // Restore scrolling
+            document.body.style.overflow = 'auto'; 
         }
 
-        // 监听 ESC 键关闭
+        // Handle ESC key to close modal
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
         });
