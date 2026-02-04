@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sissie | CAD Design</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --bg-dark: #050505;
+            --card-bg: rgba(20, 20, 25, 0.7);
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding: 40px 20px; }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* Navigation Area */
+        nav { margin-bottom: 40px; }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: var(--primary-blue); transform: translateX(-5px); }
+
+        header { margin-bottom: 60px; }
+        header h1 { font-size: 3rem; font-weight: 800; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        header p { color: var(--text-dim); font-size: 1.1rem; }
+
+        /* Project Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .cad-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .cad-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            background: #1a1a1f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            padding: 10px;
+        }
+
+        .card-content { padding: 25px; flex-grow: 1; }
+        .card-tags { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .tag {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 100px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .card-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+        .card-desc { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
+
+        /* Modal / Lightbox Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            max-width: 1000px;
+            width: 100%;
+            background: #0a0a0f;
+            border-radius: 32px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content { transform: scale(1); }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .modal-close:hover { background: var(--primary-blue); }
+
+        .modal-image-container {
+            width: 100%;
+            height: 50vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-info {
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .modal-info .card-tags { margin-bottom: 20px; }
+        .modal-info h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        .modal-info p { font-size: 1.1rem; color: var(--text-dim); line-height: 1.8; }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 2.2rem; }
+            .modal-info h2 { font-size: 1.8rem; }
+            .modal-content { border-radius: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="index.html" class="back-btn">
+                <i data-lucide="arrow-left"></i> Back to Hub
+            </a>
+        </nav>
+
+        <header>
+            <h1>CAD Design Portfolio</h1>
+            <p>Showcasing 3D modeling, structural engineering, and mechanical simulations.</p>
+        </header>
+
+        <div class="grid">
+            <!-- Project 1: Terminator Robot -->
+            <div class="cad-card" onclick="openModal(this)">
+                <div class="card-image">
+                    <img src="asset/1.png" alt="Humanoid Robot Design" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <i data-lucide="bot" size="48" style="opacity: 0.2; display:none"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag">SolidWorks</span>
+                        <span class="tag">Robotics</span>
+                    </div>
+                    <h2 class="card-title">Humanoid Skeleton</h2>
+                    <p class="card-desc">Advanced humanoid robot chassis design with complex joint assemblies and bio-mechanical structural analysis.</p>
+                </div>
+            </div>
+
+            <!-- Project 2: Tank -->
+            <div class="cad-card" onclick="openModal(this)">
+                <div class="card-image">
+                    <img src="asset/2.png" alt="Armored Vehicle Design" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <i data-lucide="shield" size="48" style="opacity: 0.2; display:none"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag">CATIA</span>
+                        <span class="tag">Military</span>
+                    </div>
+                    <h2 class="card-title">Armored Main Battle Tank</h2>
+                    <p class="card-desc">High-fidelity modeling of a main battle tank, including rotating turret mechanism and detailed tread assembly.</p>
+                </div>
+            </div>
+
+            <!-- Project 3: BMW Car -->
+            <div class="cad-card" onclick="openModal(this)">
+                <div class="card-image">
+                    <img src="asset/3.png" alt="Automotive Surface Design" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <i data-lucide="car" size="48" style="opacity: 0.2; display:none"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag">Surface Modeling</span>
+                        <span class="tag">Automotive</span>
+                    </div>
+                    <h2 class="card-title">BMW Sedan Body</h2>
+                    <p class="card-desc">Class-A surfacing for a BMW sedan, focusing on aerodynamic efficiency and aesthetic curvature continuity.</p>
+                </div>
+            </div>
+
+            <!-- Project 4: Public Seating -->
+            <div class="cad-card" onclick="openModal(this)">
+                <div class="card-image">
+                    <img src="asset/4.png" alt="Industrial Furniture Design" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <i data-lucide="armchair" size="48" style="opacity: 0.2; display:none"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag">Product Design</span>
+                        <span class="tag">Ergonomics</span>
+                    </div>
+                    <h2 class="card-title">Ergonomic Public Seating</h2>
+                    <p class="card-desc">Industrial design of a metallic airport bench focusing on structural integrity, mass production, and ergonomics.</p>
+                </div>
+            </div>
+
+            <!-- Project 5: Supercar -->
+            <div class="cad-card" onclick="openModal(this)">
+                <div class="card-image">
+                    <img src="asset/5.png" alt="Supercar Aerodynamics" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <i data-lucide="zap" size="48" style="opacity: 0.2; display:none"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag">CATIA V5</span>
+                        <span class="tag">Aerodynamics</span>
+                    </div>
+                    <h2 class="card-title">McLaren 650S Concept</h2>
+                    <p class="card-desc">Detailed concept modeling of a McLaren supercar, featuring functional cooling vents and active aero components.</p>
+                </div>
+            </div>
+
+            <!-- Project 6: Fighter Jet -->
+            <div class="cad-card" onclick="openModal(this)">
+                <div class="card-image">
+                    <img src="asset/6.png" alt="Aerospace Engineering" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <i data-lucide="plane" size="48" style="opacity: 0.2; display:none"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag">Aerospace</span>
+                        <span class="tag">Simulation</span>
+                    </div>
+                    <h2 class="card-title">Stealth Fighter Jet</h2>
+                    <p class="card-desc">Advanced aerospace design for a twin-engine fighter jet with radar-deflecting geometries and internal weapons bay.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="modal" id="projectModal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-image-container">
+                <img id="modalImage" src="" alt="Preview">
+            </div>
+            <div class="modal-info">
+                <div id="modalTags" class="card-tags"></div>
+                <h2 id="modalTitle"></h2>
+                <p id="modalDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function openModal(card) {
+            const modal = document.getElementById('projectModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDesc = document.getElementById('modalDesc');
+            const modalTags = document.getElementById('modalTags');
+
+            // 提取卡片中的数据
+            const imgSrc = card.querySelector('.card-image img').src;
+            const title = card.querySelector('.card-title').innerText;
+            const desc = card.querySelector('.card-desc').innerText;
+            const tags = card.querySelector('.card-tags').innerHTML;
+
+            // 填充到模态框
+            modalImg.src = imgSrc;
+            modalTitle.innerText = title;
+            modalDesc.innerText = desc;
+            modalTags.innerHTML = tags;
+
+            // 显示模态框
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // scrollowing forbidden
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // scolling available
+        }
+
+        // 监听 ESC 键关闭
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
