@@ -21,7 +21,7 @@
             line-height: 1.6;
         }
 
-        /* Compact Header Design */
+        /* Header Styles */
         .hero {
             background-color: var(--bg-dark);
             padding: 30px 20px;
@@ -57,6 +57,7 @@
             font-size: 1.5rem;
         }
 
+        /* Portfolio Grid */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -69,13 +70,16 @@
             object-fit: cover;
             border-radius: 8px;
             background-color: #111;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            cursor: zoom-in;
         }
 
         .gallery img:hover {
             transform: scale(1.02);
+            filter: brightness(1.1);
         }
 
+        /* Pricing Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -95,6 +99,7 @@
             color: var(--accent);
         }
 
+        /* Contact Form */
         form {
             display: flex;
             flex-direction: column;
@@ -139,6 +144,41 @@
             color: var(--text-dim);
             font-size: 0.8rem;
         }
+
+        /* Lightbox Preview Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body>
@@ -160,7 +200,6 @@
 <section class="portfolio">
     <h2>Portfolio</h2>
     <div class="gallery">
-        <!-- Reverted to original local image paths -->
         <img src="images/art1.jpg" alt="Artwork 1">
         <img src="images/art2.jpg" alt="Artwork 2">
         <img src="images/art3.jpg" alt="Artwork 3">
@@ -232,6 +271,38 @@
 <footer>
     <p>© 2026 Sissie · Freelance Artist</p>
 </footer>
+
+<div id="lightbox" class="lightbox">
+    <img id="lightbox-img" src="" alt="Enlarged view">
+</div>
+
+<script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    // Handle image click to open lightbox
+    document.querySelectorAll('.gallery img').forEach(image => {
+        image.addEventListener('click', () => {
+            lightboxImg.src = image.src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+    });
+
+    // Close lightbox on background click
+    lightbox.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto'; 
+    });
+
+    // Close lightbox on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+</script>
 
 </body>
 </html>
