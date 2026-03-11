@@ -9,6 +9,7 @@
         :root {
             --primary-blue: #3b82f6;
             --accent-purple: #8b5cf6;
+            --gold: #fbbf24;
             --bg-dark: #050505;
             --card-bg: rgba(20, 20, 25, 0.7);
             --text-main: #ffffff;
@@ -19,9 +20,71 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow-x: hidden; }
         
-        .container { width: 100%; max-width: 1000px; padding: 40px 20px; position: relative; z-index: 1; }
-        header { text-align: center; margin-bottom: 50px; }
-        header h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .container { width: 100%; max-width: 1000px; padding: 60px 20px; position: relative; z-index: 1; }
+        
+        /* Header / Profile Area */
+        header { text-align: center; margin-bottom: 60px; display: flex; flex-direction: column; align-items: center; }
+        
+        .profile-avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-blue), var(--accent-purple));
+            padding: 3px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-dark);
+            transition: transform 0.4s ease;
+        }
+
+        .profile-avatar:hover img {
+            transform: scale(1.1);
+        }
+
+        header h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+        
+        .subtitle { color: var(--text-dim); margin-top: 10px; font-size: 1.1rem; letter-spacing: 0.5px; }
+
+        /* Contact Info */
+        .contact-info {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .contact-link:hover {
+            color: white;
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+        }
 
         .project-stack { display: flex; flex-direction: column; gap: 20px; }
         .project-bar {
@@ -34,13 +97,27 @@
             display: flex;
             align-items: center;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            cursor: pointer;
         }
+        
+        .project-bar.winner-tier {
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            background: linear-gradient(110deg, rgba(20, 20, 25, 0.7), rgba(251, 191, 36, 0.05));
+        }
+
         .project-bar:hover {
             transform: translateX(15px) scale(1.02);
             border-color: var(--primary-blue);
             background: rgba(255, 255, 255, 0.05);
             box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
         }
+        
+        .project-bar.winner-tier:hover {
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.15);
+        }
+
         .icon-box { 
             width: 50px; height: 50px; 
             background: rgba(59, 130, 246, 0.1); 
@@ -48,72 +125,316 @@
             display: flex; align-items: center; justify-content: center; 
             margin-right: 25px; color: var(--primary-blue);
         }
+        
+        .icon-box.ai-accent {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--gold);
+        }
+
         .title-group { display: flex; flex-direction: column; }
-        .project-name { font-size: 1.5rem; font-weight: 700; color: white; }
+        .project-name { font-size: 1.5rem; font-weight: 700; color: white; display: flex; align-items: center; gap: 10px; }
         .project-desc { color: var(--text-dim); font-size: 1rem; margin-top: 4px; }
+        
+        .tag-group { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+        .tag { 
+            display: inline-block; 
+            font-size: 0.65rem; 
+            font-weight: 700;
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+        }
+        .tag-winner { background: var(--gold); color: #000; }
+        .tag-captain { background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
+        .tag-default { background: rgba(59, 130, 246, 0.1); color: var(--primary-blue); }
+        
         .arrow { margin-left: auto; color: var(--text-dim); transition: 0.3s; }
         .project-bar:hover .arrow { color: var(--primary-blue); transform: translateX(5px); }
+        .winner-tier:hover .arrow { color: var(--gold); }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            width: 90%;
+            max-width: 900px;
+            background: #0a0a0c;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text-dim);
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            z-index: 10;
+        }
+        .close-modal:hover { color: white; background: rgba(255, 255, 255, 0.1); }
+        
+        /* Gallery Grid for CAD */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: #111;
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+
+        /* Lightbox (Image Zoom) */
+        #lightboxModal .modal-content {
+            background: transparent;
+            border: none;
+            padding: 0;
+            max-width: 95vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        #lightboxImage {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            object-fit: contain;
+        }
+
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .video-container video { width: 100%; height: 100%; border: none; }
+        .modal-header { margin-bottom: 20px; padding-right: 40px; }
+        
+        @media (max-width: 640px) {
+            header h1 { font-size: 2.5rem; }
+            .project-bar { padding: 20px; }
+            .project-name { font-size: 1.2rem; }
+            .icon-box { margin-right: 15px; width: 40px; height: 40px; }
+            .contact-info { gap: 10px; }
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <div class="profile-avatar">
+                <img src="my_avatar.jpg" alt="Sissie Qu">
+            </div>
+
             <h1>Sissie Qu</h1>
-            <p style="color: var(--text-dim); margin-top: 15px; font-size: 1.1rem;">Computer Engineering Student @ University of Waterloo</p>
+            <p class="subtitle">Computer Engineering @ University of Waterloo</p>
+
+            <div class="contact-info">
+                <a href="mailto:sissie.qu@uwaterloo.ca" class="contact-link">
+                    <i data-lucide="mail" size="18"></i>
+                    <span>sissie.qu@uwaterloo.ca</span>
+                </a>
+                <a href="https://linkedin.com/in/sissiequ" target="_blank" class="contact-link">
+                    <i data-lucide="linkedin" size="18"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/sissiequ" target="_blank" class="contact-link">
+                    <i data-lucide="github" size="18"></i>
+                    <span>GitHub</span>
+                </a>
+            </div>
         </header>
 
         <div class="project-stack">
-            <!-- Project 1 -->
+            <!-- Highlighted Project: CoopSync AI -->
+            <div class="project-bar winner-tier" onclick="openModal('demoModal')">
+                <div class="icon-box ai-accent"><i data-lucide="trophy"></i></div>
+                <div class="title-group">
+                    <div class="tag-group">
+                        <span class="tag tag-winner">🏆 1st Place Overall</span>
+                        <span class="tag tag-captain">Project Captain</span>
+                        <span class="tag tag-default">EngHacks 2026</span>
+                    </div>
+                    <span class="project-name">CoopSync AI</span>
+                    <span class="project-desc">AI-driven internship matching and resume optimization platform. Led a team of 4 to victory at EngHacks 2026.</span>
+                </div>
+                <div class="arrow"><i data-lucide="play-circle"></i></div>
+            </div>
+
+            <!-- CAD Project -->
+            <div class="project-bar" onclick="openModal('cadModal')">
+                <div class="icon-box"><i data-lucide="layers"></i></div>
+                <div class="title-group">
+                    <div class="tag-group"><span class="tag tag-default">Mechanical Design</span></div>
+                    <span class="project-name">Mechanical Claw Design</span>
+                    <span class="project-desc">Precision 3D modeling and stress analysis of a robotic gripper using SolidWorks and AutoCAD.</span>
+                </div>
+                <div class="arrow"><i data-lucide="image"></i></div>
+            </div>
+
+            <!-- Other Projects -->
             <a href="countingEN.html" class="project-bar">
                 <div class="icon-box"><i data-lucide="scan"></i></div>
                 <div class="title-group">
+                    <div class="tag-group"><span class="tag tag-default">Computer Vision</span></div>
                     <span class="project-name">AI Cargo Scanning System</span>
-                    <span class="project-desc">Real-time object detection using OpenCV & Python.</span>
+                    <span class="project-desc">Real-time logistics detection system developed using OpenCV and Python.</span>
                 </div>
-                <i data-lucide="chevron-right" class="arrow"></i>
+                <div class="arrow"><i data-lucide="chevron-right"></i></div>
             </a>
 
-            <!-- Project 2 -->
             <a href="game_demo.html" class="project-bar">
                 <div class="icon-box"><i data-lucide="gamepad-2"></i></div>
                 <div class="title-group">
+                    <div class="tag-group"><span class="tag tag-default">Game Dev</span></div>
                     <span class="project-name">2D Platformer Game</span>
-                    <span class="project-desc">Unity-based WebGL demo with custom physics.</span>
+                    <span class="project-desc">Unity-based WebGL game demo featuring a custom physics engine and level mechanics.</span>
                 </div>
-                <i data-lucide="chevron-right" class="arrow"></i>
+                <div class="arrow"><i data-lucide="chevron-right"></i></div>
             </a>
 
-            <!-- NEW: Project 3 - CAD Design -->
-            <a href="cad_design.html" class="project-bar">
-                <div class="icon-box"><i data-lucide="layers"></i></div>
-                <div class="title-group">
-                    <span class="project-name">CAD Design</span>
-                    <span class="project-desc">Mechanical modeling and structural engineering projects.</span>
-                </div>
-                <i data-lucide="chevron-right" class="arrow"></i>
-            </a>
-
-            <!-- Project 4 -->
             <a href="GPACalculator.html" class="project-bar">
                 <div class="icon-box"><i data-lucide="calculator"></i></div>
                 <div class="title-group">
+                    <div class="tag-group"><span class="tag tag-default">Utility Tool</span></div>
                     <span class="project-name">Grade Calculator</span>
-                    <span class="project-desc">Academic performance tracking tool.</span>
+                    <span class="project-desc">Academic performance tracking and projection tool tailored for UW engineering students.</span>
                 </div>
-                <i data-lucide="chevron-right" class="arrow"></i>
-            </a>
-
-            <!-- Project 5 -->
-            <a href="freelance_artist.html" class="project-bar">
-                <div class="icon-box"><i data-lucide="palette"></i></div>
-                <div class="title-group">
-                    <span class="project-name">Creative Portfolio</span>
-                    <span class="project-desc">Freelance digital art and design collection.</span>
-                </div>
-                <i data-lucide="chevron-right" class="arrow"></i>
+                <div class="arrow"><i data-lucide="chevron-right"></i></div>
             </a>
         </div>
     </div>
-    <script>lucide.createIcons();</script>
+
+    <!-- Video Demo Modal -->
+    <div class="modal-overlay" id="demoModal" onclick="closeModal('demoModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeModal('demoModal')">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-header">
+                <h2 style="font-size: 1.6rem; margin-bottom: 4px;">CoopSync AI</h2>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span style="color: var(--gold); font-weight: 700; font-size: 0.9rem;">1st Place @ EngHacks 2026</span>
+                </div>
+            </div>
+            <div class="video-container">
+                <video id="demoVideo" controls poster="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1000&auto=format&fit=crop">
+                    <source src="coopsync_demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- CAD Gallery Modal -->
+    <div class="modal-overlay" id="cadModal" onclick="closeModal('cadModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeModal('cadModal')">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-header">
+                <h2 style="font-size: 1.6rem; margin-bottom: 4px;">Mechanical Claw Design</h2>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">CAD Modeling Showcase (SolidWorks / AutoCAD)</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="zoomImage('asset/1.png')"><img src="asset/1.png" alt="CAD Design 1"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/2.png')"><img src="asset/2.png" alt="CAD Design 2"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/3.png')"><img src="asset/3.png" alt="CAD Design 3"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/4.png')"><img src="asset/4.png" alt="CAD Design 4"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/5.png')"><img src="asset/5.png" alt="CAD Design 5"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/6.png')"><img src="asset/6.png" alt="CAD Design 6"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal for Image Zoom -->
+    <div class="modal-overlay" id="lightboxModal" onclick="closeModal('lightboxModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeModal('lightboxModal')">
+                <i data-lucide="x"></i>
+            </button>
+            <img src="" id="lightboxImage" alt="Zoomed View" onclick="closeModal('lightboxModal')">
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('active');
+            if (id === 'demoModal') {
+                document.getElementById('demoVideo').play();
+            }
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('active');
+            if (id === 'demoModal') {
+                const video = document.getElementById('demoVideo');
+                video.pause();
+                video.currentTime = 0;
+            }
+        }
+
+        function zoomImage(src) {
+            const img = document.getElementById('lightboxImage');
+            img.src = src;
+            openModal('lightboxModal');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(m => closeModal(m.id));
+            }
+        });
+    </script>
 </body>
 </html>
