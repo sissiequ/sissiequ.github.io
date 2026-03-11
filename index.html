@@ -148,6 +148,7 @@
         .tag-winner { background: var(--gold); color: #000; }
         .tag-captain { background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
         .tag-default { background: rgba(59, 130, 246, 0.1); color: var(--primary-blue); }
+        .tag-intern { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
         
         .arrow { margin-left: auto; color: var(--text-dim); transition: 0.3s; }
         .project-bar:hover .arrow { color: var(--primary-blue); transform: translateX(5px); }
@@ -310,9 +311,12 @@
             <div class="project-bar" onclick="openModal('cadModal')">
                 <div class="icon-box"><i data-lucide="layers"></i></div>
                 <div class="title-group">
-                    <div class="tag-group"><span class="tag tag-default">Mechanical Design</span></div>
+                    <div class="tag-group">
+                        <span class="tag tag-default">Mechanical Design</span>
+                        <span class="tag tag-intern">Collaborated with 2025 Summer Intern</span>
+                    </div>
                     <span class="project-name">Mechanical Claw Design</span>
-                    <span class="project-desc">Precision 3D modeling and stress analysis of a robotic gripper using SolidWorks and AutoCAD.</span>
+                    <span class="project-desc">Precision 3D modeling and stress analysis of a robotic gripper using CATIA V5.</span>
                 </div>
                 <div class="arrow"><i data-lucide="image"></i></div>
             </div>
@@ -379,16 +383,16 @@
             </button>
             <div class="modal-header">
                 <h2 style="font-size: 1.6rem; margin-bottom: 4px;">Mechanical Claw Design</h2>
-                <p style="color: var(--text-dim); font-size: 0.9rem;">CAD Modeling Showcase (SolidWorks / AutoCAD)</p>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">CATIA V5 Modeling Showcase (Assisted by 2025 Summer Intern)</p>
             </div>
             
             <div class="gallery-grid">
-                <div class="gallery-item" onclick="zoomImage('asset/1.png')"><img src="asset/1.png" alt="CAD Design 1"></div>
-                <div class="gallery-item" onclick="zoomImage('asset/2.png')"><img src="asset/2.png" alt="CAD Design 2"></div>
-                <div class="gallery-item" onclick="zoomImage('asset/3.png')"><img src="asset/3.png" alt="CAD Design 3"></div>
-                <div class="gallery-item" onclick="zoomImage('asset/4.png')"><img src="asset/4.png" alt="CAD Design 4"></div>
-                <div class="gallery-item" onclick="zoomImage('asset/5.png')"><img src="asset/5.png" alt="CAD Design 5"></div>
-                <div class="gallery-item" onclick="zoomImage('asset/6.png')"><img src="asset/6.png" alt="CAD Design 6"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/1.png')"><img src="asset/1.png" alt="CATIA V5 Design 1"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/2.png')"><img src="asset/2.png" alt="CATIA V5 Design 2"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/3.png')"><img src="asset/3.png" alt="CATIA V5 Design 3"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/4.png')"><img src="asset/4.png" alt="CATIA V5 Design 4"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/5.png')"><img src="asset/5.png" alt="CATIA V5 Design 5"></div>
+                <div class="gallery-item" onclick="zoomImage('asset/6.png')"><img src="asset/6.png" alt="CATIA V5 Design 6"></div>
             </div>
         </div>
     </div>
